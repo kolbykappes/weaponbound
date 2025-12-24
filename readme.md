@@ -122,6 +122,27 @@ Game balance parameters are centralized in configuration files for easy tuning:
 
 See `/src/data/` and configuration constants for adjustment points.
 
+## Development Guidelines
+
+### Change Logging
+
+**MANDATORY**: All changes to the codebase must be documented in `CHANGES.md`. This includes:
+
+- New features
+- Bug fixes
+- UI/UX modifications
+- Balance adjustments
+- Performance improvements
+- Breaking changes
+
+When making changes:
+1. Update the version number following semantic versioning (MAJOR.MINOR.PATCH)
+2. Add an entry to `CHANGES.md` with the date, version, and description of changes
+3. Update the version number in the UI (displayed in the header)
+4. Commit changes with a descriptive message
+
+See `CHANGES.md` for the complete version history.
+
 ## Contributing
 
 This project is currently in early development. Contribution guidelines will be established as the project matures.

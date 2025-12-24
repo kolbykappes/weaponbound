@@ -23,7 +23,9 @@ export function createInitialWeapon(): Weapon {
 
 export function createInitialState(): GameState {
   const startingFloor = GAME_CONSTANTS.STARTING_FLOOR;
-  const enemyHp = calculateEnemyHp(startingFloor, false);
+  const enemyHpMult = GAME_CONSTANTS.ENEMY_HP_MULTIPLIER;
+  const bossHpMult = GAME_CONSTANTS.BOSS_HP_MULTIPLIER;
+  const enemyHp = calculateEnemyHp(startingFloor, false, enemyHpMult, bossHpMult);
 
   return {
     currentFloor: startingFloor,
@@ -64,6 +66,9 @@ export function createInitialState(): GameState {
 
     lastTickTime: Date.now(),
     isRunActive: true,
+
+    enemyHpMultiplier: enemyHpMult,
+    bossHpMultiplier: bossHpMult,
   };
 }
 

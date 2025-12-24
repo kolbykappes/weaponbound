@@ -11,7 +11,7 @@ import { FighterPanel } from './FighterPanel';
 
 export function CombatView() {
   const { state, dispatch } = useGame();
-  const [activePanel, setActivePanel] = useState<'none' | 'weapon' | 'legacy' | 'fighter'>('none');
+  const [activePanel, setActivePanel] = useState<'weapon' | 'legacy' | 'fighter'>('weapon');
 
   const handleAttack = () => {
     dispatch({ type: 'ACTIVE_ATTACK' });
@@ -24,37 +24,38 @@ export function CombatView() {
       <div className="combat-area">
         <div className="combat-row">
           <EnemyDisplay />
-          <DPSPanel />
-        </div>
-
-        <div className="attack-section">
-          <button
-            className="attack-button"
-            onClick={handleAttack}
-            disabled={!canAttack}
-          >
-            ATTACK
-          </button>
-          <ResourceBars />
+          <div className="combat-controls">
+            <DPSPanel />
+            <div className="attack-section">
+              <button
+                className="attack-button"
+                onClick={handleAttack}
+                disabled={!canAttack}
+              >
+                ATTACK
+              </button>
+              <ResourceBars />
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="tab-navigation">
         <button
           className={`tab-button ${activePanel === 'weapon' ? 'active' : ''}`}
-          onClick={() => setActivePanel(activePanel === 'weapon' ? 'none' : 'weapon')}
+          onClick={() => setActivePanel('weapon')}
         >
           Weapon
         </button>
         <button
           className={`tab-button ${activePanel === 'legacy' ? 'active' : ''}`}
-          onClick={() => setActivePanel(activePanel === 'legacy' ? 'none' : 'legacy')}
+          onClick={() => setActivePanel('legacy')}
         >
           Legacy
         </button>
         <button
           className={`tab-button ${activePanel === 'fighter' ? 'active' : ''}`}
-          onClick={() => setActivePanel(activePanel === 'fighter' ? 'none' : 'fighter')}
+          onClick={() => setActivePanel('fighter')}
         >
           Fighter
         </button>
