@@ -1,0 +1,116 @@
+{
+  "treeId": "legacy",
+  "nodes": [
+    {
+      "id": "legacy_trunk",
+      "name": "First Legacy",
+      "description": "+10% Legacy XP gain, +10% Weapon Mastery XP gain (global)",
+      "cost": 1,
+      "parents": [],
+      "effects": [
+        { "type": "legacy_xp_mult", "value": 0.10 },
+        { "type": "mastery_xp_mult_global", "value": 0.10 }
+      ]
+    },
+    {
+      "id": "legacy_weapon_1",
+      "name": "Armory Foundations",
+      "description": "+1 maximum weapon slot in stable (future use)",
+      "cost": 1,
+      "parents": ["legacy_trunk"],
+      "effects": [
+        { "type": "weapon_slots", "value": 1 }
+      ]
+    },
+    {
+      "id": "legacy_weapon_2",
+      "name": "Sharpened Traditions",
+      "description": "Weapons gain +10% base damage",
+      "cost": 1,
+      "parents": ["legacy_weapon_1"],
+      "effects": [
+        { "type": "weapon_base_damage_mult", "value": 0.10 }
+      ]
+    },
+    {
+      "id": "legacy_weapon_3",
+      "name": "Expanded Loadouts",
+      "description": "Each weapon gains +1 Loadout slot (future use)",
+      "cost": 1,
+      "parents": ["legacy_weapon_2"],
+      "effects": [
+        { "type": "loadout_slots", "value": 1 }
+      ]
+    },
+    {
+      "id": "legacy_weapon_keystone",
+      "name": "Quality Breakthrough",
+      "description": "Unlocks Quality Rank 2 for Dagger (future use)",
+      "cost": 2,
+      "parents": ["legacy_weapon_3"],
+      "effects": [
+        { "type": "quality_cap", "value": 2 }
+      ]
+    },
+    {
+      "id": "legacy_class_1",
+      "name": "Fighter's Foundation",
+      "description": "Unlocks Tier 1 of Fighter run-tree (future use)",
+      "cost": 1,
+      "parents": ["legacy_trunk"],
+      "effects": [
+        { "type": "fighter_tier_unlock", "value": 1 }
+      ]
+    },
+    {
+      "id": "legacy_class_2",
+      "name": "Veteran Fighter",
+      "description": "+50% Fighter run XP gain (future use)",
+      "cost": 1,
+      "parents": ["legacy_class_1"],
+      "effects": [
+        { "type": "fighter_xp_mult", "value": 0.50 }
+      ]
+    },
+    {
+      "id": "legacy_class_keystone",
+      "name": "Advanced Tactics",
+      "description": "Unlocks Tier 2 of Fighter run-tree (future use)",
+      "cost": 2,
+      "parents": ["legacy_class_2"],
+      "effects": [
+        { "type": "fighter_tier_unlock", "value": 2 }
+      ]
+    },
+    {
+      "id": "legacy_qol_1",
+      "name": "Basic Automation",
+      "description": "+5% Passive DPS",
+      "cost": 1,
+      "parents": ["legacy_trunk"],
+      "effects": [
+        { "type": "passive_dps_mult_global", "value": 0.05 }
+      ]
+    },
+    {
+      "id": "legacy_qol_2",
+      "name": "Efficient Energy",
+      "description": "+20% Energy regeneration per second",
+      "cost": 1,
+      "parents": ["legacy_qol_1"],
+      "effects": [
+        { "type": "energy_regen_mult", "value": 0.20 }
+      ]
+    },
+    {
+      "id": "legacy_qol_keystone",
+      "name": "Auto-Strike",
+      "description": "Unlocks auto-clicker (future use)",
+      "cost": 2,
+      "parents": ["legacy_qol_2"],
+      "effects": [
+        { "type": "auto_clicker_unlock", "value": 1 }
+      ]
+    }
+  ]
+}

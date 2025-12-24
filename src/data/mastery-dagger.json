@@ -1,0 +1,131 @@
+{
+  "treeId": "dagger-mastery",
+  "weaponId": "dagger",
+  "nodes": [
+    {
+      "id": "dagger_core_1",
+      "name": "Sharpened Edge",
+      "description": "+20% base damage for Dagger",
+      "cost": 1,
+      "parents": [],
+      "effects": [
+        { "type": "base_damage_mult", "value": 0.20 }
+      ]
+    },
+    {
+      "id": "dagger_core_2",
+      "name": "Balanced Grip",
+      "description": "+10% Passive DPS, +10% Active DPS",
+      "cost": 1,
+      "parents": ["dagger_core_1"],
+      "effects": [
+        { "type": "passive_dps_mult", "value": 0.10 },
+        { "type": "active_dps_mult", "value": 0.10 }
+      ]
+    },
+    {
+      "id": "dagger_core_3",
+      "name": "Reliable Strikes",
+      "description": "+10% crit chance",
+      "cost": 1,
+      "parents": ["dagger_core_2"],
+      "effects": [
+        { "type": "crit_chance_add", "value": 0.10 }
+      ]
+    },
+    {
+      "id": "dagger_crit_1",
+      "name": "Precise Cuts",
+      "description": "+50% crit damage multiplier",
+      "cost": 1,
+      "parents": ["dagger_core_3"],
+      "effects": [
+        { "type": "crit_multiplier_add", "value": 0.50 }
+      ]
+    },
+    {
+      "id": "dagger_crit_2",
+      "name": "First Blood",
+      "description": "+30% damage to enemies above 80% HP",
+      "cost": 1,
+      "parents": ["dagger_crit_1"],
+      "effects": [
+        { "type": "high_hp_damage_mult", "value": 0.30, "target": "above_80_percent" }
+      ]
+    },
+    {
+      "id": "dagger_crit_keystone",
+      "name": "Executioner's Focus",
+      "description": "+50% damage to bosses, -10% damage to normal enemies",
+      "cost": 2,
+      "parents": ["dagger_crit_2"],
+      "effects": [
+        { "type": "boss_damage_mult", "value": 0.50 },
+        { "type": "normal_enemy_damage_mult", "value": -0.10 }
+      ]
+    },
+    {
+      "id": "dagger_speed_1",
+      "name": "Light Blade",
+      "description": "+25% attack speed for Active hits, -10% energy cost per click",
+      "cost": 1,
+      "parents": ["dagger_core_3"],
+      "effects": [
+        { "type": "active_attack_speed_mult", "value": 0.25 },
+        { "type": "energy_cost_mult", "value": -0.10 }
+      ]
+    },
+    {
+      "id": "dagger_speed_2",
+      "name": "Flurry",
+      "description": "+33% Passive DPS (extra hit every 3 seconds)",
+      "cost": 1,
+      "parents": ["dagger_speed_1"],
+      "effects": [
+        { "type": "passive_dps_mult", "value": 0.33 }
+      ]
+    },
+    {
+      "id": "dagger_speed_keystone",
+      "name": "Overclocked Strikes",
+      "description": "+40% total attack speed, +20% Active click Energy cost",
+      "cost": 2,
+      "parents": ["dagger_speed_2"],
+      "effects": [
+        { "type": "attack_speed_mult", "value": 0.40 },
+        { "type": "energy_cost_mult", "value": 0.20 }
+      ]
+    },
+    {
+      "id": "dagger_util_1",
+      "name": "Efficient Kill",
+      "description": "+10% Gold gain from enemies killed with Dagger",
+      "cost": 1,
+      "parents": ["dagger_core_3"],
+      "effects": [
+        { "type": "gold_mult", "value": 0.10 }
+      ]
+    },
+    {
+      "id": "dagger_util_2",
+      "name": "Weapon Insight",
+      "description": "+25% Weapon Mastery XP from Dagger kills",
+      "cost": 1,
+      "parents": ["dagger_util_1"],
+      "effects": [
+        { "type": "mastery_xp_mult", "value": 0.25 }
+      ]
+    },
+    {
+      "id": "dagger_util_keystone",
+      "name": "Master's Bond",
+      "description": "Defeating a boss grants bonus Weapon Mastery XP and Legacy XP",
+      "cost": 2,
+      "parents": ["dagger_util_2"],
+      "effects": [
+        { "type": "boss_mastery_xp_bonus", "value": 20 },
+        { "type": "boss_legacy_xp_bonus", "value": 10 }
+      ]
+    }
+  ]
+}
