@@ -1,0 +1,15 @@
+{
+  "treeId": "fighter",
+  "nodes": [
+    {
+      "id": "fighter_stub_1",
+      "name": "Fighter Basics",
+      "description": "Placeholder node for future Fighter tree",
+      "cost": 1,
+      "parents": [],
+      "effects": [
+        { "type": "placeholder", "value": 0 }
+      ]
+    }
+  ]
+}
