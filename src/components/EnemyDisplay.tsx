@@ -3,34 +3,28 @@
 import { useGame } from '../context/GameContext';
 import { getEnemyName } from '../utils/gameLogic';
 import { GAME_CONSTANTS } from '../utils/constants';
+import { Enemy } from '../types/game.types';
 
 export function EnemyDisplay() {
   const { state } = useGame();
 
-  const hpPercent = (state.currentEnemyHp / state.maxEnemyHp) * 100;
-  const enemyName = getEnemyName(state.currentFloor, state.isBossFloor);
+  if (state.enemyQueue.length === 0) {
+    return (
+      <div className="enemy-display">
+        <div className="enemy-info">
+          <div className="enemy-name">No enemies</div>
+        </div>
+      </div>
+    );
+  }
+
+  const frontEnemy = state.enemyQueue[0]!;
+  const queuedEnemies = state.enemyQueue.slice(1);
 
   return (
     <div className="enemy-display">
-      <div className={`enemy-icon ${state.isBossFloor ? 'boss' : 'normal'}`}>
-        {state.isBossFloor ? '👹' : '🎯'}
-      </div>
-      <div className="enemy-info">
-        <div className="enemy-name">{enemyName}</div>
-        <div className="enemy-hp-bar">
-          <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{
-                width: `${Math.max(0, hpPercent)}%`,
-                backgroundColor: state.isBossFloor ? '#d0021b' : '#4a90e2'
-              }}
-            ></div>
-          </div>
-          <div className="hp-text">
-            {Math.max(0, Math.floor(state.currentEnemyHp)).toLocaleString()} / {Math.floor(state.maxEnemyHp).toLocaleString()} HP
-          </div>
-        </div>
+      <div className="front-enemy">
+        <EnemyCard enemy={frontEnemy} isFront={true} floor={state.currentFloor} />
         {state.isBossFloor && state.bossTimerRemaining !== null && (
           <div className="boss-timer-bar">
             <div className="progress-bar">
@@ -44,11 +38,45 @@ export function EnemyDisplay() {
             </div>
           </div>
         )}
-        {state.enemiesRemainingOnFloor > 1 && (
-          <div className="enemies-remaining">
-            Enemies remaining: {state.enemiesRemainingOnFloor}
+      </div>
+
+      {queuedEnemies.length > 0 && (
+        <div className="enemy-queue">
+          {queuedEnemies.map((enemy) => (
+            <EnemyCard key={enemy.id} enemy={enemy} isFront={false} floor={state.currentFloor} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function EnemyCard({ enemy, isFront, floor }: { enemy: Enemy; isFront: boolean; floor: number }) {
+  const hpPercent = (enemy.hp / enemy.maxHp) * 100;
+  const enemyName = getEnemyName(floor, enemy.isBoss);
+
+  return (
+    <div className={`enemy-card ${isFront ? 'front' : 'queued'} ${enemy.isBoss ? 'boss' : 'normal'}`}>
+      <div className={`enemy-icon ${enemy.isBoss ? 'boss' : 'normal'}`}>
+        {enemy.isBoss ? '👹' : '🎯'}
+      </div>
+      <div className="enemy-info">
+        <div className="enemy-name">{enemyName}</div>
+        <div className="enemy-hp-bar">
+          <div className="progress-bar-rtl">
+            <div
+              className="progress-fill-red"
+              style={{
+                width: `${Math.max(0, hpPercent)}%`,
+              }}
+            ></div>
           </div>
-        )}
+          {isFront && (
+            <div className="hp-text">
+              {Math.max(0, Math.floor(enemy.hp)).toLocaleString()} / {Math.floor(enemy.maxHp).toLocaleString()} HP
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

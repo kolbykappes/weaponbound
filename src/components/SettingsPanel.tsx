@@ -7,8 +7,10 @@ interface SettingsPanelProps {
   onClose: () => void;
   enemyHpMult: number;
   bossHpMult: number;
+  enemySpawnInterval: number;
   onEnemyHpMultChange: (value: number) => void;
   onBossHpMultChange: (value: number) => void;
+  onEnemySpawnIntervalChange: (value: number) => void;
 }
 
 export function SettingsPanel({
@@ -16,8 +18,10 @@ export function SettingsPanel({
   onClose,
   enemyHpMult,
   bossHpMult,
+  enemySpawnInterval,
   onEnemyHpMultChange,
   onBossHpMultChange,
+  onEnemySpawnIntervalChange,
 }: SettingsPanelProps) {
   const handleReset = () => {
     if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
@@ -68,6 +72,22 @@ export function SettingsPanel({
               <div className="slider-labels">
                 <span>2x</span>
                 <span>10x</span>
+              </div>
+            </div>
+
+            <div className="setting-item">
+              <label>Enemy Spawn Interval: {enemySpawnInterval.toFixed(1)}s</label>
+              <input
+                type="range"
+                min="0.5"
+                max="5.0"
+                step="0.1"
+                value={enemySpawnInterval}
+                onChange={(e) => onEnemySpawnIntervalChange(parseFloat(e.target.value))}
+              />
+              <div className="slider-labels">
+                <span>0.5s</span>
+                <span>5.0s</span>
               </div>
             </div>
 

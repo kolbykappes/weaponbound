@@ -165,19 +165,70 @@ body {
   border-radius: 8px;
   padding: 20px;
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.front-enemy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.enemy-queue {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.enemy-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 6px;
+  border: 2px solid #e0e0e0;
+  transition: all 0.2s;
+}
+
+.enemy-card.front {
+  border-color: #4a90e2;
+  background-color: #f0f7ff;
+}
+
+.enemy-card.queued {
+  max-width: 200px;
+  opacity: 0.85;
+}
+
+.enemy-card.boss {
+  border-color: #d0021b;
 }
 
 .enemy-icon {
-  font-size: 64px;
+  font-size: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 80px;
-  min-height: 80px;
+  min-width: 50px;
+  min-height: 50px;
+}
+
+.enemy-card.front .enemy-icon {
+  font-size: 64px;
+  min-width: 70px;
+  min-height: 70px;
 }
 
 .enemy-icon.boss {
+  font-size: 56px;
+}
+
+.enemy-card.front .enemy-icon.boss {
   font-size: 80px;
 }
 
@@ -185,12 +236,17 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
+  justify-content: center;
 }
 
 .enemy-name {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
+}
+
+.enemy-card.front .enemy-name {
+  font-size: 20px;
 }
 
 .enemy-hp-bar {
@@ -199,9 +255,29 @@ body {
   gap: 4px;
 }
 
+/* Red health bar that depletes right-to-left */
+.progress-bar-rtl {
+  width: 100%;
+  height: 10px;
+  background-color: #333;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.progress-fill-red {
+  height: 100%;
+  background-color: #d0021b;
+  transition: width 0.2s ease;
+  border-radius: 4px 0 0 4px;
+}
+
 .hp-text {
-  font-size: 14px;
+  font-size: 13px;
   color: #666;
+  font-weight: 500;
 }
 
 .boss-timer-bar {

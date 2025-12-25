@@ -1,6 +1,6 @@
 // utils/constants.ts
 
-export const APP_VERSION = '0.2.0';
+export const APP_VERSION = '0.3.0';
 
 export const GAME_CONSTANTS = {
   // Tick rate
@@ -19,7 +19,7 @@ export const GAME_CONSTANTS = {
   // Energy
   BASE_MAX_ENERGY: 100,
   BASE_ENERGY_REGEN_PER_SECOND: 10,
-  BASE_ENERGY_PER_CLICK: 15,
+  BASE_ENERGY_PER_CLICK: 5,
 
   // Weapon - Dagger base stats
   DAGGER_BASE_DAMAGE: 5,
@@ -27,6 +27,7 @@ export const GAME_CONSTANTS = {
   DAGGER_BASE_ATTACK_SPEED: 1,
   DAGGER_BASE_CRIT_CHANCE: 0,
   DAGGER_BASE_CRIT_MULTIPLIER: 1.5,
+  DAGGER_BASE_SWING_INTERVAL: 1.0, // seconds between auto-swings
 
   // Weapon leveling (in-run)
   WEAPON_LEVEL_DAMAGE_INCREASE: 3,
@@ -53,7 +54,10 @@ export const GAME_CONSTANTS = {
   MASTERY_XP_PER_LEVEL: 100,
   LEGACY_XP_PER_LEVEL: 50,
 
+  // Enemy spawning
+  ENEMY_SPAWN_INTERVAL: 2.0, // seconds between enemy spawns
+
   // Storage
   STORAGE_KEY: 'weaponbound-game-state',
-  STORAGE_VERSION: 1,
+  STORAGE_VERSION: 2, // Incremented for new enemy queue system
 };
