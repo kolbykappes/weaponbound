@@ -1,6 +1,6 @@
 // utils/constants.ts
 
-export const APP_VERSION = '0.3.0';
+export const APP_VERSION = '0.3.1';
 
 export const GAME_CONSTANTS = {
   // Tick rate
@@ -18,11 +18,11 @@ export const GAME_CONSTANTS = {
 
   // Energy
   BASE_MAX_ENERGY: 100,
-  BASE_ENERGY_REGEN_PER_SECOND: 10,
+  BASE_ENERGY_REGEN_PER_SECOND: 25,
   BASE_ENERGY_PER_CLICK: 5,
 
   // Weapon - Dagger base stats
-  DAGGER_BASE_DAMAGE: 5,
+  DAGGER_BASE_DAMAGE: 1,
   DAGGER_BASE_PASSIVE_DPS: 2,
   DAGGER_BASE_ATTACK_SPEED: 1,
   DAGGER_BASE_CRIT_CHANCE: 0,
@@ -36,7 +36,7 @@ export const GAME_CONSTANTS = {
   WEAPON_MAX_RUN_LEVEL: 50,
 
   // Enemy scaling
-  ENEMY_BASE_HP: 20,
+  ENEMY_BASE_HP: 5,
   ENEMY_HP_MULTIPLIER: 1.20,
   BOSS_HP_MULTIPLIER: 5,
 

@@ -7,6 +7,13 @@ export interface Enemy {
   isBoss: boolean;
 }
 
+export interface LogEntry {
+  id: string;
+  timestamp: number;
+  type: 'damage' | 'kill' | 'gold' | 'floor' | 'level' | 'spawn';
+  message: string;
+}
+
 export interface GameState {
   // Run state
   currentFloor: number;
@@ -16,6 +23,7 @@ export interface GameState {
   nextEnemySpawnTimer: number; // seconds until next enemy spawns
   bossTimerRemaining: number | null; // seconds, null if not boss floor
   gold: number;
+  gameLog: LogEntry[]; // Game event log (max 100 entries)
 
   // Weapon (single Dagger for POC)
   weapon: Weapon;
