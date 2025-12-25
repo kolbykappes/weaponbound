@@ -5,6 +5,35 @@ All notable changes to Weaponbound will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1] - 2024-12-25
+
+### Added
+- Game event log system tracking kills, spawns, floor changes, and level ups
+- LogPanel component in settings panel showing live game stats and event history
+- Progressive HP scaling per enemy within each wave
+- HP values now displayed on all queued enemies (not just front enemy)
+
+### Changed
+- Base weapon damage reduced from 5 to 1 for better progression feel
+- Base enemy HP reduced from 20 to 5 for faster early game
+- Energy regeneration increased from 10/s to 25/s for more responsive clicking
+- Damage output panel width reduced to 280px for better layout balance
+- Each enemy in a wave now has progressively more HP (scales with floor)
+
+### Fixed
+- Attack button now more responsive with increased energy regeneration
+- Combat controls panel no longer takes too much horizontal space
+- Enemy queue layout now shows HP for all enemies
+
+### Technical
+- Added LogEntry interface to track game events
+- Added gameLog array to GameState (max 100 entries)
+- Created addLogEntry() helper function
+- Enhanced calculateEnemyHp() with enemyIndexInWave parameter for progressive HP
+- Updated createEnemy() to accept enemy index for progressive scaling
+- Added event logging to enemy deaths, floor changes, weapon level ups, and enemy spawns
+- Created LogPanel component with stats display and scrollable event log
+
 ## [0.3.0] - 2024-12-25
 
 ### Added

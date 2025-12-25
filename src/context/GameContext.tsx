@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 import { GameState, GameAction, TreeData } from '../types/game.types';
-import { createInitialState, addMasteryXp, addLegacyXp, canAllocateNode, findNode, createEnemy } from '../utils/gameLogic';
+import { createInitialState, addMasteryXp, addLegacyXp, canAllocateNode, findNode, createEnemy, addLogEntry } from '../utils/gameLogic';
 import { calculateStats, calculateRewards, calculateWeaponLevelCost } from '../utils/calculations';
 import { saveGame, loadGame } from '../utils/storage';
 import { GAME_CONSTANTS } from '../utils/constants';
@@ -52,14 +52,24 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           newState.enemyQueue.length < 10 &&
           newState.enemiesRemainingOnFloor > newState.enemyQueue.length) {
         // Spawn new enemy
+        const enemyIndexInWave = GAME_CONSTANTS.ENEMIES_PER_FLOOR - newState.enemiesRemainingOnFloor + newState.enemyQueue.length + 1;
+        const isBossEnemy = newState.isBossFloor && newState.enemiesRemainingOnFloor === 1;
         const newEnemy = createEnemy(
           newState.currentFloor,
-          newState.isBossFloor && newState.enemiesRemainingOnFloor === 1,
+          isBossEnemy,
           newState.enemyHpMultiplier,
-          newState.bossHpMultiplier
+          newState.bossHpMultiplier,
+          enemyIndexInWave
         );
         newState.enemyQueue = [...newState.enemyQueue, newEnemy];
         newState.nextEnemySpawnTimer = newState.enemySpawnInterval;
+
+        // Log enemy spawn
+        newState = addLogEntry(
+          newState,
+          'spawn',
+          `Enemy #${enemyIndexInWave} spawned (${newEnemy.maxHp} HP)${isBossEnemy ? ' - BOSS!' : ''}`
+        );
       }
 
       // 4. Check if front enemy is dead
@@ -107,12 +117,20 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           ...state.weapon,
           runLevel: state.weapon.runLevel + 1,
         };
-        const newState = {
+        let newState = {
           ...state,
           gold: state.gold - cost,
           weapon: newWeapon,
         };
         newState.stats = calculateStats(newState, masteryTree, legacyTree);
+
+        // Log level up
+        newState = addLogEntry(
+          newState,
+          'level',
+          `Weapon leveled up to ${newWeapon.runLevel}! Base damage: ${newState.stats.baseDamage.toFixed(1)}`
+        );
+
         return newState;
       }
       return state;
@@ -238,6 +256,13 @@ function handleEnemyDeath(state: GameState): GameState {
   // Add legacy XP
   newState = addLegacyXp(newState, rewards.legacyXp);
 
+  // Log the kill
+  newState = addLogEntry(
+    newState,
+    'kill',
+    `Killed ${deadEnemy.isBoss ? 'BOSS' : 'enemy'}! +${rewards.gold} gold, +${rewards.masteryXp} mastery XP`
+  );
+
   // Check if all enemies on floor are defeated (none in queue, none waiting to spawn)
   const totalEnemiesLeft = newState.enemyQueue.length + (newState.enemiesRemainingOnFloor - state.enemyQueue.length);
   if (totalEnemiesLeft === 0) {
@@ -255,10 +280,10 @@ function advanceFloor(state: GameState): GameState {
   const nextFloor = state.currentFloor + 1;
   const isBoss = nextFloor % GAME_CONSTANTS.BOSS_FLOOR_INTERVAL === 0;
 
-  // Create first enemy for new floor
-  const firstEnemy = createEnemy(nextFloor, isBoss, state.enemyHpMultiplier, state.bossHpMultiplier);
+  // Create first enemy for new floor (index 1)
+  const firstEnemy = createEnemy(nextFloor, isBoss, state.enemyHpMultiplier, state.bossHpMultiplier, 1);
 
-  return {
+  let newState = {
     ...state,
     currentFloor: nextFloor,
     isBossFloor: isBoss,
@@ -267,14 +292,23 @@ function advanceFloor(state: GameState): GameState {
     nextEnemySpawnTimer: state.enemySpawnInterval,
     bossTimerRemaining: isBoss ? GAME_CONSTANTS.BOSS_TIMER_SECONDS : null,
   };
+
+  // Log floor change
+  newState = addLogEntry(
+    newState,
+    'floor',
+    `Advanced to Floor ${nextFloor}${isBoss ? ' (BOSS FLOOR)' : ''}`
+  );
+
+  return newState;
 }
 
 function handleBossFailure(state: GameState): GameState {
   // Move back to previous non-boss floor
   const previousFloor = state.currentFloor - 1;
 
-  // Create first enemy for previous floor
-  const firstEnemy = createEnemy(previousFloor, false, state.enemyHpMultiplier, state.bossHpMultiplier);
+  // Create first enemy for previous floor (index 1)
+  const firstEnemy = createEnemy(previousFloor, false, state.enemyHpMultiplier, state.bossHpMultiplier, 1);
 
   return {
     ...state,

@@ -3,14 +3,22 @@
 import { GameState, CombatStats, TreeData, NodeEffect } from '../types/game.types';
 import { GAME_CONSTANTS } from './constants';
 
-export function calculateEnemyHp(floor: number, isBoss: boolean, enemyHpMult?: number, bossHpMult?: number): number {
+export function calculateEnemyHp(floor: number, isBoss: boolean, enemyHpMult?: number, bossHpMult?: number, enemyIndexInWave?: number): number {
   const floorMult = enemyHpMult ?? GAME_CONSTANTS.ENEMY_HP_MULTIPLIER;
   const bossMult = bossHpMult ?? GAME_CONSTANTS.BOSS_HP_MULTIPLIER;
+  const waveIndex = enemyIndexInWave ?? 1;
 
+  // Base HP scales with floor
   const baseHp = GAME_CONSTANTS.ENEMY_BASE_HP *
     Math.pow(floorMult, floor - 1);
 
-  return isBoss ? baseHp * bossMult : baseHp;
+  // Progressive HP bonus: each enemy in the wave gets progressively more HP
+  // Scales with floor (later floors have bigger gaps between enemies)
+  const progressiveBonus = (waveIndex - 1) * Math.ceil(floor * 0.5);
+
+  const finalHp = baseHp + progressiveBonus;
+
+  return isBoss ? finalHp * bossMult : finalHp;
 }
 
 export function calculateWeaponLevelCost(currentLevel: number): number {

@@ -1,6 +1,7 @@
 // components/SettingsPanel.tsx
 
 import { resetGame } from '../utils/storage';
+import { LogPanel } from './LogPanel';
 
 interface SettingsPanelProps {
   isOpen: boolean;
@@ -40,6 +41,10 @@ export function SettingsPanel({
         </div>
 
         <div className="settings-content">
+          <div className="settings-section">
+            <LogPanel />
+          </div>
+
           <div className="settings-section">
             <h3>Game Balance</h3>
 

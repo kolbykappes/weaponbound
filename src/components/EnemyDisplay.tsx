@@ -71,11 +71,9 @@ function EnemyCard({ enemy, isFront, floor }: { enemy: Enemy; isFront: boolean; 
               }}
             ></div>
           </div>
-          {isFront && (
-            <div className="hp-text">
-              {Math.max(0, Math.floor(enemy.hp)).toLocaleString()} / {Math.floor(enemy.maxHp).toLocaleString()} HP
-            </div>
-          )}
+          <div className="hp-text">
+            {Math.max(0, Math.floor(enemy.hp)).toLocaleString()} / {Math.floor(enemy.maxHp).toLocaleString()} HP
+          </div>
         </div>
       </div>
     </div>

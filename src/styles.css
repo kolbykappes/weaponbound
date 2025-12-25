@@ -291,11 +291,10 @@ body {
 
 /* DPS Panel */
 .dps-panel {
-  flex: 1;
-  min-width: 250px;
   background-color: white;
   border-radius: 8px;
-  padding: 20px;
+  padding: 15px;
+  width: 100%;
 }
 
 .dps-panel h3 {
@@ -319,8 +318,8 @@ body {
 
 /* Combat Controls */
 .combat-controls {
-  flex: 1;
-  min-width: 250px;
+  flex: 0 0 280px;
+  max-width: 280px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -723,6 +722,90 @@ body {
 
 .reset-button-settings:hover {
   background-color: #b00218;
+}
+
+/* Log Panel */
+.log-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.log-panel h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #4a90e2;
+}
+
+.log-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.log-stats .stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.log-stats .stat-label {
+  color: #666;
+  font-weight: 500;
+}
+
+.log-stats .stat-value {
+  font-weight: bold;
+  color: #333;
+}
+
+.log-entries {
+  max-height: 400px;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  padding: 10px;
+}
+
+.log-entry {
+  display: flex;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+}
+
+.log-entry:last-child {
+  border-bottom: none;
+}
+
+.log-time {
+  color: #999;
+  min-width: 50px;
+  font-size: 10px;
+}
+
+.log-type {
+  font-weight: bold;
+  min-width: 70px;
+}
+
+.log-message {
+  color: #333;
+  flex: 1;
+}
+
+.log-entry-empty {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-style: italic;
 }
 
 /* Responsive adjustments */

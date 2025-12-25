@@ -1,8 +1,25 @@
 // utils/gameLogic.ts
 
-import { GameState, Weapon, TreeData, TreeNode, Enemy } from '../types/game.types';
+import { GameState, Weapon, TreeData, TreeNode, Enemy, LogEntry } from '../types/game.types';
 import { GAME_CONSTANTS } from './constants';
 import { calculateEnemyHp, calculateMasteryLevel, calculateLegacyLevel } from './calculations';
+
+export function addLogEntry(state: GameState, type: LogEntry['type'], message: string): GameState {
+  const newEntry: LogEntry = {
+    id: `log_${Date.now()}_${Math.random()}`,
+    timestamp: Date.now(),
+    type,
+    message,
+  };
+
+  // Keep only last 100 entries
+  const newLog = [newEntry, ...state.gameLog].slice(0, 100);
+
+  return {
+    ...state,
+    gameLog: newLog,
+  };
+}
 
 export function createInitialWeapon(): Weapon {
   return {
@@ -21,8 +38,8 @@ export function createInitialWeapon(): Weapon {
   };
 }
 
-export function createEnemy(floor: number, isBoss: boolean, enemyHpMult: number, bossHpMult: number): Enemy {
-  const maxHp = calculateEnemyHp(floor, isBoss, enemyHpMult, bossHpMult);
+export function createEnemy(floor: number, isBoss: boolean, enemyHpMult: number, bossHpMult: number, enemyIndexInWave: number): Enemy {
+  const maxHp = calculateEnemyHp(floor, isBoss, enemyHpMult, bossHpMult, enemyIndexInWave);
   return {
     id: `enemy_${Date.now()}_${Math.random()}`,
     hp: maxHp,
@@ -37,8 +54,8 @@ export function createInitialState(): GameState {
   const bossHpMult = GAME_CONSTANTS.BOSS_HP_MULTIPLIER;
   const spawnInterval = GAME_CONSTANTS.ENEMY_SPAWN_INTERVAL;
 
-  // Create first enemy
-  const firstEnemy = createEnemy(startingFloor, false, enemyHpMult, bossHpMult);
+  // Create first enemy (index 1)
+  const firstEnemy = createEnemy(startingFloor, false, enemyHpMult, bossHpMult, 1);
 
   return {
     currentFloor: startingFloor,
@@ -84,6 +101,7 @@ export function createInitialState(): GameState {
     enemyHpMultiplier: enemyHpMult,
     bossHpMultiplier: bossHpMult,
     enemySpawnInterval: spawnInterval,
+    gameLog: [],
   };
 }
 
