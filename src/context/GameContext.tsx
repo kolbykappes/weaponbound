@@ -50,10 +50,10 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       newState.nextEnemySpawnTimer -= deltaSec;
       if (newState.nextEnemySpawnTimer <= 0 &&
           newState.enemyQueue.length < 10 &&
-          newState.enemiesRemainingOnFloor > newState.enemyQueue.length) {
+          newState.enemiesSpawnedOnFloor < newState.enemiesRemainingOnFloor) {
         // Spawn new enemy
-        const enemyIndexInWave = GAME_CONSTANTS.ENEMIES_PER_FLOOR - newState.enemiesRemainingOnFloor + newState.enemyQueue.length + 1;
-        const isBossEnemy = newState.isBossFloor && newState.enemiesRemainingOnFloor === 1;
+        const enemyIndexInWave = newState.enemiesSpawnedOnFloor + 1;
+        const isBossEnemy = newState.isBossFloor && enemyIndexInWave === newState.enemiesRemainingOnFloor;
         const newEnemy = createEnemy(
           newState.currentFloor,
           isBossEnemy,
@@ -62,6 +62,7 @@ function gameReducer(state: GameState, action: GameAction): GameState {
           enemyIndexInWave
         );
         newState.enemyQueue = [...newState.enemyQueue, newEnemy];
+        newState.enemiesSpawnedOnFloor = enemyIndexInWave; // Increment spawn counter
         newState.nextEnemySpawnTimer = newState.enemySpawnInterval;
 
         // Log enemy spawn
@@ -260,12 +261,11 @@ function handleEnemyDeath(state: GameState): GameState {
   newState = addLogEntry(
     newState,
     'kill',
-    `Killed ${deadEnemy.isBoss ? 'BOSS' : 'enemy'}! +${rewards.gold} gold, +${rewards.masteryXp} mastery XP`
+    `Killed enemy #${deadEnemy.indexInWave}${deadEnemy.isBoss ? ' (BOSS)' : ''}! +${rewards.gold} gold, +${rewards.masteryXp} mastery XP`
   );
 
-  // Check if all enemies on floor are defeated (none in queue, none waiting to spawn)
-  const totalEnemiesLeft = newState.enemyQueue.length + (newState.enemiesRemainingOnFloor - state.enemyQueue.length);
-  if (totalEnemiesLeft === 0) {
+  // Check if all enemies on floor are defeated (queue empty and all enemies spawned)
+  if (newState.enemyQueue.length === 0 && newState.enemiesSpawnedOnFloor >= newState.enemiesRemainingOnFloor) {
     // Floor complete, advance to next floor
     newState = advanceFloor(newState);
   }
@@ -288,6 +288,7 @@ function advanceFloor(state: GameState): GameState {
     currentFloor: nextFloor,
     isBossFloor: isBoss,
     enemiesRemainingOnFloor: isBoss ? 1 : GAME_CONSTANTS.ENEMIES_PER_FLOOR,
+    enemiesSpawnedOnFloor: 1, // Reset spawn counter, first enemy already spawned
     enemyQueue: [firstEnemy],
     nextEnemySpawnTimer: state.enemySpawnInterval,
     bossTimerRemaining: isBoss ? GAME_CONSTANTS.BOSS_TIMER_SECONDS : null,
@@ -315,6 +316,7 @@ function handleBossFailure(state: GameState): GameState {
     currentFloor: previousFloor,
     isBossFloor: false,
     enemiesRemainingOnFloor: GAME_CONSTANTS.ENEMIES_PER_FLOOR,
+    enemiesSpawnedOnFloor: 1, // Reset spawn counter
     enemyQueue: [firstEnemy],
     nextEnemySpawnTimer: state.enemySpawnInterval,
     bossTimerRemaining: null,

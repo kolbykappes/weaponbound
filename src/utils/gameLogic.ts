@@ -45,6 +45,7 @@ export function createEnemy(floor: number, isBoss: boolean, enemyHpMult: number,
     hp: maxHp,
     maxHp,
     isBoss,
+    indexInWave: enemyIndexInWave,
   };
 }
 
@@ -61,6 +62,7 @@ export function createInitialState(): GameState {
     currentFloor: startingFloor,
     isBossFloor: false,
     enemiesRemainingOnFloor: GAME_CONSTANTS.ENEMIES_PER_FLOOR,
+    enemiesSpawnedOnFloor: 1, // We already spawned the first enemy
     enemyQueue: [firstEnemy],
     nextEnemySpawnTimer: spawnInterval,
     bossTimerRemaining: null,

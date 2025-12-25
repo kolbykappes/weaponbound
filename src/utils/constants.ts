@@ -1,6 +1,6 @@
 // utils/constants.ts
 
-export const APP_VERSION = '0.3.1';
+export const APP_VERSION = '0.3.2';
 
 export const GAME_CONSTANTS = {
   // Tick rate
@@ -18,7 +18,7 @@ export const GAME_CONSTANTS = {
 
   // Energy
   BASE_MAX_ENERGY: 100,
-  BASE_ENERGY_REGEN_PER_SECOND: 25,
+  BASE_ENERGY_REGEN_PER_SECOND: 1,
   BASE_ENERGY_PER_CLICK: 5,
 
   // Weapon - Dagger base stats

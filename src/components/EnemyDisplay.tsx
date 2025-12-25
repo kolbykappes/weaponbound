@@ -61,7 +61,9 @@ function EnemyCard({ enemy, isFront, floor }: { enemy: Enemy; isFront: boolean; 
         {enemy.isBoss ? '👹' : '🎯'}
       </div>
       <div className="enemy-info">
-        <div className="enemy-name">{enemyName}</div>
+        <div className="enemy-name">
+          <span className="enemy-id">#{enemy.indexInWave}</span> {enemyName}
+        </div>
         <div className="enemy-hp-bar">
           <div className="progress-bar-rtl">
             <div

@@ -5,6 +5,28 @@ All notable changes to Weaponbound will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2] - 2024-12-25
+
+### Added
+- Enemy ID numbers displayed on all enemies in queue for easier debugging
+- Enemy indexInWave field to track position in wave
+
+### Changed
+- Energy regeneration reduced from 25/s to 1/s for better gameplay balance
+
+### Fixed
+- **Critical**: Fixed infinite enemy spawning bug - now properly limits to 10 enemies per floor
+- Enemy spawn tracking now uses enemiesSpawnedOnFloor counter
+- Floor completion logic now correctly checks if all enemies are spawned and defeated
+- Boss enemy detection now uses wave index instead of remaining count
+
+### Technical
+- Added enemiesSpawnedOnFloor to GameState to track spawn count
+- Updated spawn condition to check enemiesSpawnedOnFloor < enemiesRemainingOnFloor
+- Spawn counter increments when enemy is created, not when defeated
+- Floor advance and boss failure now reset enemiesSpawnedOnFloor to 1
+- Enemy ID displayed with blue monospace styling
+
 ## [0.3.1] - 2024-12-25
 
 ### Added

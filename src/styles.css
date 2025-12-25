@@ -249,6 +249,12 @@ body {
   font-size: 20px;
 }
 
+.enemy-id {
+  color: #4a90e2;
+  font-weight: bold;
+  font-family: monospace;
+}
+
 .enemy-hp-bar {
   display: flex;
   flex-direction: column;

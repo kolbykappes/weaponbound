@@ -5,6 +5,7 @@ export interface Enemy {
   hp: number;
   maxHp: number;
   isBoss: boolean;
+  indexInWave: number; // Position in the wave (1-10)
 }
 
 export interface LogEntry {
@@ -19,6 +20,7 @@ export interface GameState {
   currentFloor: number;
   isBossFloor: boolean;
   enemiesRemainingOnFloor: number;
+  enemiesSpawnedOnFloor: number; // Track how many enemies have been spawned this floor
   enemyQueue: Enemy[]; // Active enemies in the zone (max 10)
   nextEnemySpawnTimer: number; // seconds until next enemy spawns
   bossTimerRemaining: number | null; // seconds, null if not boss floor
