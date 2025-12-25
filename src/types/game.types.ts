@@ -1,17 +1,25 @@
 // types/game.types.ts
 
+export interface Enemy {
+  id: string;
+  hp: number;
+  maxHp: number;
+  isBoss: boolean;
+}
+
 export interface GameState {
   // Run state
   currentFloor: number;
   isBossFloor: boolean;
   enemiesRemainingOnFloor: number;
-  currentEnemyHp: number;
-  maxEnemyHp: number;
+  enemyQueue: Enemy[]; // Active enemies in the zone (max 10)
+  nextEnemySpawnTimer: number; // seconds until next enemy spawns
   bossTimerRemaining: number | null; // seconds, null if not boss floor
   gold: number;
 
   // Weapon (single Dagger for POC)
   weapon: Weapon;
+  swingTimer: number; // seconds until next auto-swing
 
   // Account-wide progression
   legacyXp: number;
@@ -39,6 +47,7 @@ export interface GameState {
   // Balance settings
   enemyHpMultiplier: number;
   bossHpMultiplier: number;
+  enemySpawnInterval: number; // seconds between enemy spawns
 }
 
 export interface Weapon {
@@ -111,6 +120,7 @@ export type GameAction =
   | { type: 'ALLOCATE_LEGACY_NODE'; payload: { nodeId: string } }
   | { type: 'UPDATE_ENEMY_HP_MULT'; payload: number }
   | { type: 'UPDATE_BOSS_HP_MULT'; payload: number }
+  | { type: 'UPDATE_ENEMY_SPAWN_INTERVAL'; payload: number }
   | { type: 'END_RUN' }
   | { type: 'RESET_GAME' }
   | { type: 'LOAD_GAME'; payload: GameState };

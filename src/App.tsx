@@ -13,6 +13,7 @@ function GameContent() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [enemyHpMult, setEnemyHpMult] = useState(1.20);
   const [bossHpMult, setBossHpMult] = useState(5.0);
+  const [enemySpawnInterval, setEnemySpawnInterval] = useState(2.0);
 
   // Start the game loop
   useGameLoop(state, dispatch);
@@ -28,6 +29,11 @@ function GameContent() {
     dispatch({ type: 'UPDATE_BOSS_HP_MULT', payload: value });
   };
 
+  const handleEnemySpawnIntervalChange = (value: number) => {
+    setEnemySpawnInterval(value);
+    dispatch({ type: 'UPDATE_ENEMY_SPAWN_INTERVAL', payload: value });
+  };
+
   return (
     <div className="app">
       <Header />
@@ -38,8 +44,10 @@ function GameContent() {
         onClose={() => setIsSettingsOpen(false)}
         enemyHpMult={enemyHpMult}
         bossHpMult={bossHpMult}
+        enemySpawnInterval={enemySpawnInterval}
         onEnemyHpMultChange={handleEnemyHpMultChange}
         onBossHpMultChange={handleBossHpMultChange}
+        onEnemySpawnIntervalChange={handleEnemySpawnIntervalChange}
       />
     </div>
   );
