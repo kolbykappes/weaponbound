@@ -35,6 +35,10 @@ export interface GameState {
   // Meta
   lastTickTime: number;
   isRunActive: boolean;
+
+  // Balance settings
+  enemyHpMultiplier: number;
+  bossHpMultiplier: number;
 }
 
 export interface Weapon {
@@ -105,6 +109,8 @@ export type GameAction =
   | { type: 'LEVEL_WEAPON' }
   | { type: 'ALLOCATE_MASTERY_NODE'; payload: { nodeId: string } }
   | { type: 'ALLOCATE_LEGACY_NODE'; payload: { nodeId: string } }
+  | { type: 'UPDATE_ENEMY_HP_MULT'; payload: number }
+  | { type: 'UPDATE_BOSS_HP_MULT'; payload: number }
   | { type: 'END_RUN' }
   | { type: 'RESET_GAME' }
   | { type: 'LOAD_GAME'; payload: GameState };

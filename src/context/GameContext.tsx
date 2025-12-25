@@ -138,6 +138,20 @@ function gameReducer(state: GameState, action: GameAction): GameState {
       return state;
     }
 
+    case 'UPDATE_ENEMY_HP_MULT': {
+      return {
+        ...state,
+        enemyHpMultiplier: action.payload,
+      };
+    }
+
+    case 'UPDATE_BOSS_HP_MULT': {
+      return {
+        ...state,
+        bossHpMultiplier: action.payload,
+      };
+    }
+
     case 'RESET_GAME': {
       const initialState = createInitialState();
       initialState.stats = calculateStats(initialState, masteryTree, legacyTree);
@@ -146,6 +160,13 @@ function gameReducer(state: GameState, action: GameAction): GameState {
 
     case 'LOAD_GAME': {
       const loadedState = action.payload;
+      // Ensure multipliers exist (for backwards compatibility)
+      if (!loadedState.enemyHpMultiplier) {
+        loadedState.enemyHpMultiplier = GAME_CONSTANTS.ENEMY_HP_MULTIPLIER;
+      }
+      if (!loadedState.bossHpMultiplier) {
+        loadedState.bossHpMultiplier = GAME_CONSTANTS.BOSS_HP_MULTIPLIER;
+      }
       loadedState.stats = calculateStats(loadedState, masteryTree, legacyTree);
       return loadedState;
     }
@@ -187,7 +208,7 @@ function handleEnemyDeath(state: GameState): GameState {
 function advanceFloor(state: GameState): GameState {
   const nextFloor = state.currentFloor + 1;
   const isBoss = nextFloor % GAME_CONSTANTS.BOSS_FLOOR_INTERVAL === 0;
-  const enemyHp = calculateEnemyHp(nextFloor, isBoss);
+  const enemyHp = calculateEnemyHp(nextFloor, isBoss, state.enemyHpMultiplier, state.bossHpMultiplier);
 
   return {
     ...state,
@@ -203,7 +224,7 @@ function advanceFloor(state: GameState): GameState {
 function handleBossFailure(state: GameState): GameState {
   // Move back to previous non-boss floor
   const previousFloor = state.currentFloor - 1;
-  const enemyHp = calculateEnemyHp(previousFloor, false);
+  const enemyHp = calculateEnemyHp(previousFloor, false, state.enemyHpMultiplier, state.bossHpMultiplier);
 
   return {
     ...state,

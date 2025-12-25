@@ -3,11 +3,14 @@
 import { GameState, CombatStats, TreeData, NodeEffect } from '../types/game.types';
 import { GAME_CONSTANTS } from './constants';
 
-export function calculateEnemyHp(floor: number, isBoss: boolean): number {
-  const baseHp = GAME_CONSTANTS.ENEMY_BASE_HP *
-    Math.pow(GAME_CONSTANTS.ENEMY_HP_MULTIPLIER, floor - 1);
+export function calculateEnemyHp(floor: number, isBoss: boolean, enemyHpMult?: number, bossHpMult?: number): number {
+  const floorMult = enemyHpMult ?? GAME_CONSTANTS.ENEMY_HP_MULTIPLIER;
+  const bossMult = bossHpMult ?? GAME_CONSTANTS.BOSS_HP_MULTIPLIER;
 
-  return isBoss ? baseHp * GAME_CONSTANTS.BOSS_HP_MULTIPLIER : baseHp;
+  const baseHp = GAME_CONSTANTS.ENEMY_BASE_HP *
+    Math.pow(floorMult, floor - 1);
+
+  return isBoss ? baseHp * bossMult : baseHp;
 }
 
 export function calculateWeaponLevelCost(currentLevel: number): number {

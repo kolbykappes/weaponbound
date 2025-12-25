@@ -3,6 +3,7 @@
 import { useGame } from '../context/GameContext';
 import { calculateWeaponLevelCost } from '../utils/calculations';
 import { canAllocateNode } from '../utils/gameLogic';
+import { GAME_CONSTANTS } from '../utils/constants';
 import { TreeNode } from '../types/game.types';
 
 export function WeaponPanel() {
@@ -10,7 +11,7 @@ export function WeaponPanel() {
   const { weapon } = state;
 
   const levelCost = calculateWeaponLevelCost(weapon.runLevel);
-  const canLevelUp = state.gold >= levelCost && weapon.runLevel < 50;
+  const canLevelUp = state.gold >= levelCost && weapon.runLevel < GAME_CONSTANTS.WEAPON_MAX_RUN_LEVEL;
 
   const handleLevelWeapon = () => {
     dispatch({ type: 'LEVEL_WEAPON' });
@@ -28,7 +29,7 @@ export function WeaponPanel() {
         <h3>Run Stats</h3>
         <div className="stat-row">
           <span>Level:</span>
-          <span>{weapon.runLevel}</span>
+          <span>{weapon.runLevel} / {GAME_CONSTANTS.WEAPON_MAX_RUN_LEVEL}</span>
         </div>
         <div className="stat-row">
           <span>Base Damage:</span>
@@ -43,7 +44,9 @@ export function WeaponPanel() {
           onClick={handleLevelWeapon}
           disabled={!canLevelUp}
         >
-          Level Weapon (Cost: {levelCost} gold)
+          {weapon.runLevel >= GAME_CONSTANTS.WEAPON_MAX_RUN_LEVEL
+            ? 'Max Level Reached'
+            : `Level Weapon (Cost: ${levelCost} gold)`}
         </button>
       </div>
 
